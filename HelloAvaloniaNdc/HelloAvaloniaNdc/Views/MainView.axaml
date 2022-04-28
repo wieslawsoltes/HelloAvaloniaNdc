@@ -13,7 +13,7 @@
     <Design.DataContext>
         <viewModels:MainViewModel />
     </Design.DataContext>
-    <Grid Margin="8">
+    <Grid Margin="8" RowDefinitions="Auto, Auto, *">
         <Grid.Styles>
             <Style Selector="ListBox">
                 <Setter Property="(i:Interaction.Behaviors)">
@@ -27,11 +27,40 @@
                     </i:BehaviorCollectionTemplate>
                 </Setter>
             </Style>
+            <Style Selector="ListBox#ResultsListView">
+                <Setter Property="ItemTemplate">
+                    <DataTemplate x:DataType="octokit:User">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter>
+            </Style>
             <Style Selector="ListBox#ResultsListView.normal">
                 <Setter Property="IsVisible" Value="True" />
             </Style>
             <Style Selector="ListBox#ResultsListView.wide">
                 <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="ListBox#ResultsGridView">
+                <Setter Property="ItemTemplate">
+                    <DataTemplate x:DataType="octokit:User">
+                        <Grid Width="200" Height="100">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
+                        </Grid>
+                    </DataTemplate>
+                </Setter>
+                <Setter Property="ItemsPanel">
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </Setter>
             </Style>
             <Style Selector="ListBox#ResultsGridView.normal">
                 <Setter Property="IsVisible" Value="False" />
@@ -40,41 +69,9 @@
                 <Setter Property="IsVisible" Value="True" />
             </Style>
         </Grid.Styles>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
         <TextBox Text="{Binding SearchText, Mode=TwoWay}" />
         <Button Content="Search" Command="{Binding SearchCommand}" Grid.Row="1" />
-        <ListBox x:Name="ResultsListView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2">
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="octokit:User">
-                    <StackPanel Orientation="Horizontal" Spacing="12">
-                        <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <ListBox x:Name="ResultsGridView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="octokit:User">
-                    <Grid Width="200" Height="100">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ListBox x:Name="ResultsListView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2"/>
+        <ListBox x:Name="ResultsGridView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2"/>
     </Grid>
 </UserControl>
