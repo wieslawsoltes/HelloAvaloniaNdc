@@ -7,6 +7,7 @@
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ir="clr-namespace:Avalonia.Xaml.Interactions.Responsive;assembly=Avalonia.Xaml.Interactions"
              xmlns:c="clr-namespace:HelloAvaloniaNdc"
+             xmlns:views="clr-namespace:HelloAvaloniaNdc.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="HelloAvaloniaNdc.Views.MainView"
              x:CompileBindings="True" x:DataType="viewModels:MainViewModel">
@@ -15,19 +16,7 @@
     </Design.DataContext>
     <Grid Margin="8" RowDefinitions="Auto, Auto, *">
         <Grid.Styles>
-            <Style Selector="ListBox">
-                <Setter Property="(i:Interaction.Behaviors)">
-                    <i:BehaviorCollectionTemplate>
-                        <i:BehaviorCollection>
-                            <ir:AdaptiveBehavior SourceControl="{Binding $parent[TopLevel]}">
-                                <ir:AdaptiveClassSetter MinWidth="0" MaxWidth="500" ClassName="normal" />
-                                <ir:AdaptiveClassSetter MinWidth="500" MaxWidth="Infinity" ClassName="wide" />
-                            </ir:AdaptiveBehavior>
-                        </i:BehaviorCollection>
-                    </i:BehaviorCollectionTemplate>
-                </Setter>
-            </Style>
-            <Style Selector="ListBox#ResultsListView">
+            <Style Selector="ListBox.normal">
                 <Setter Property="ItemTemplate">
                     <DataTemplate x:DataType="octokit:User">
                         <StackPanel Orientation="Horizontal" Spacing="12">
@@ -36,21 +25,16 @@
                         </StackPanel>
                     </DataTemplate>
                 </Setter>
+                <Setter Property="ItemsPanel">
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </Setter>
             </Style>
-            <Style Selector="ListBox#ResultsListView.normal">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
-            <Style Selector="ListBox#ResultsListView.wide">
-                <Setter Property="IsVisible" Value="False" />
-            </Style>
-            <Style Selector="ListBox#ResultsGridView">
+            <Style Selector="ListBox.wide">
                 <Setter Property="ItemTemplate">
                     <DataTemplate x:DataType="octokit:User">
-                        <Grid Width="200" Height="100">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <Grid Width="200" Height="100" ColumnDefinitions="100, *">
                             <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
                             <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
                         </Grid>
@@ -62,16 +46,16 @@
                     </ItemsPanelTemplate>
                 </Setter>
             </Style>
-            <Style Selector="ListBox#ResultsGridView.normal">
-                <Setter Property="IsVisible" Value="False" />
-            </Style>
-            <Style Selector="ListBox#ResultsGridView.wide">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
         </Grid.Styles>
         <TextBox Text="{Binding SearchText, Mode=TwoWay}" />
         <Button Content="Search" Command="{Binding SearchCommand}" Grid.Row="1" />
-        <ListBox x:Name="ResultsListView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2"/>
-        <ListBox x:Name="ResultsGridView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2"/>
+        <ListBox Items="{Binding Users, Mode=OneWay}" Grid.Row="2">
+            <i:Interaction.Behaviors>
+                <ir:AdaptiveBehavior SourceControl="{Binding $parent[TopLevel]}">
+                    <ir:AdaptiveClassSetter MinWidth="0" MaxWidth="500" ClassName="normal" />
+                    <ir:AdaptiveClassSetter MinWidth="500" MaxWidth="Infinity" ClassName="wide" />
+                </ir:AdaptiveBehavior>
+            </i:Interaction.Behaviors>
+        </ListBox>
     </Grid>
 </UserControl>
