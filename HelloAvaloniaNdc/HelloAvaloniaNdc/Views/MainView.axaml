@@ -27,17 +27,11 @@
                     </i:BehaviorCollectionTemplate>
                 </Setter>
             </Style>
-            <Style Selector="ListBox#ResultsListView.normal">
-                <Setter Property="IsVisible" Value="True" />
-            </Style>
             <Style Selector="ListBox#ResultsListView.wide">
                 <Setter Property="IsVisible" Value="False" />
             </Style>
             <Style Selector="ListBox#ResultsGridView.normal">
                 <Setter Property="IsVisible" Value="False" />
-            </Style>
-            <Style Selector="ListBox#ResultsGridView.wide">
-                <Setter Property="IsVisible" Value="True" />
             </Style>
         </Grid.Styles>
         <Grid.RowDefinitions>
