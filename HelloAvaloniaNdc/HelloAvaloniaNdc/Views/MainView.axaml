@@ -16,8 +16,8 @@
                     <i:BehaviorCollectionTemplate>
                         <i:BehaviorCollection>
                             <ir:AdaptiveBehavior SourceControl="{Binding $parent[TopLevel]}">
-                                <ir:AdaptiveClassSetter MinWidth="0" MaxWidth="500" ClassName="normal" />
-                                <ir:AdaptiveClassSetter MinWidth="500" MaxWidth="Infinity" ClassName="wide" />
+                                <ir:AdaptiveClassSetter MaxWidth="500" ClassName="normal" />
+                                <ir:AdaptiveClassSetter MinWidth="500" ClassName="wide" />
                             </ir:AdaptiveBehavior>
                         </i:BehaviorCollection>
                     </i:BehaviorCollectionTemplate>
