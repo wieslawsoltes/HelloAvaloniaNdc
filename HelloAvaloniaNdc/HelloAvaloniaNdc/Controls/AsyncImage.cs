@@ -12,7 +12,7 @@ using Avalonia.Platform;
 using Avalonia.Utilities;
 using Avalonia.Visuals.Media.Imaging;
 
-namespace HelloAvaloniaNdc;
+namespace HelloAvaloniaNdc.Controls;
 
 public class AsyncImage : Image
 {
