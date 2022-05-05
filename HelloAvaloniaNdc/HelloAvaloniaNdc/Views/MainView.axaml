@@ -20,11 +20,6 @@
                         </StackPanel>
                     </DataTemplate>
                 </Setter>
-                <Setter Property="ItemsPanel">
-                    <ItemsPanelTemplate>
-                        <StackPanel />
-                    </ItemsPanelTemplate>
-                </Setter>
             </Style>
             <Style Selector="ListBox.wide">
                 <Setter Property="ItemTemplate">
