@@ -2,60 +2,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:HelloAvaloniaNdc.ViewModels"
-             xmlns:octokit="clr-namespace:Octokit;assembly=Octokit"
-             xmlns:c="clr-namespace:HelloAvaloniaNdc.Controls"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ir="clr-namespace:Avalonia.Xaml.Interactions.Responsive;assembly=Avalonia.Xaml.Interactions"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="HelloAvaloniaNdc.Views.MainView" x:CompileBindings="True" x:DataType="vm:MainViewModel">
-    <Grid Margin="8" RowDefinitions="Auto, Auto, *">
+             xmlns:collections="clr-namespace:System.Collections;assembly=netstandard"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="250"
+             x:Class="HelloAvaloniaNdc.Views.MainView">
+    <Grid Margin="8" RowDefinitions="Auto, Auto, *, Auto">
         <Grid.Styles>
-            <Style Selector="ListBox">
-                <Setter Property="(i:Interaction.Behaviors)">
-                    <i:BehaviorCollectionTemplate>
-                        <i:BehaviorCollection>
-                            <ir:AdaptiveBehavior SourceControl="{Binding $parent[TopLevel]}">
-                                <ir:AdaptiveClassSetter MaxWidth="500" ClassName="normal" />
-                                <ir:AdaptiveClassSetter MinWidth="500" ClassName="wide" />
-                            </ir:AdaptiveBehavior>
-                        </i:BehaviorCollection>
-                    </i:BehaviorCollectionTemplate>
+            <Style Selector="ListBox.normal">
+                <Setter Property="ItemTemplate">
+                    <DataTemplate DataType="system:String">
+                        <Panel Height="30" Background="Red"/>
+                    </DataTemplate>
                 </Setter>
             </Style>
-            <Style Selector="ListBox#ResultsListView.wide">
-                <Setter Property="IsVisible" Value="False" />
-            </Style>
-            <Style Selector="ListBox#ResultsGridView.normal">
-                <Setter Property="IsVisible" Value="False" />
+            <Style Selector="ListBox.wide">
+                <Setter Property="ItemTemplate">
+                    <DataTemplate DataType="system:String">
+                        <Panel Height="30" Width="100" Background="Green"/>
+                    </DataTemplate>
+                </Setter>
+                <Setter Property="ItemsPanel">
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </Setter>
             </Style>
         </Grid.Styles>
-        <TextBox Text="{Binding SearchText, Mode=TwoWay}" />
-        <Button Content="Search" Command="{Binding SearchCommand}" Grid.Row="1" />
-        <ListBox x:Name="ResultsListView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2">
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="octokit:User">
-                    <StackPanel Orientation="Horizontal" Spacing="12">
-                        <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+        <ListBox Name="ListBox"
+                 Classes.normal="{Binding !#Switch.IsChecked, Mode=OneWay}"
+                 Classes.wide="{Binding #Switch.IsChecked, Mode=OneWay}"
+                 Grid.Row="2">
+            <ListBox.Items>
+                <collections:ArrayList>
+                    <x:String>0</x:String>
+                    <x:String>1</x:String>
+                    <x:String>2</x:String>
+                    <x:String>3</x:String>
+                    <x:String>4</x:String>
+                    <x:String>5</x:String>
+                </collections:ArrayList>
+            </ListBox.Items>
         </ListBox>
-        <ListBox x:Name="ResultsGridView" Items="{Binding Users, Mode=OneWay}" Grid.Row="2">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="octokit:User">
-                    <Grid Width="200" Height="100" ColumnDefinitions="100, *">
-                        <c:AsyncImage Width="100" AsyncSource="{Binding AvatarUrl}" />
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Login}" FontSize="20" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ToggleSwitch Name="Switch" IsChecked="False" OnContent="wide" OffContent="normal" Grid.Row="3" />
     </Grid>
 </UserControl>
