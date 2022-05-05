@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Utilities;
 using Avalonia.Visuals.Media.Imaging;
 
-namespace HelloAvaloniaNdc;
+namespace HelloAvaloniaNdc.Controls;
 
 public class AsyncImage : Image
 {
